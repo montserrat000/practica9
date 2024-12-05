@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CiTIM Grupo XB</title>
-    <link rel="stylesheet" href="css/problemaStem.css">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
-    <script src="js/calculaStem.js" defer></script>
     <style>
         /* Estilos rápidos para modernizar el diseño */
         body {
@@ -94,38 +92,47 @@
                 </center>
             </section>
 
-            <!-- Fórmulas -->
-            <section class="formulas">
-                <h2>Fórmulas</h2>
-                <ul>
-                    <li><strong>Velocidad final:</strong> v = v₀ + a ⋅ t</li>
-                    <li><strong>Espacio recorrido:</strong> x = v₀ ⋅ t + ½ ⋅ a ⋅ t²</li>
-                    <li><strong>Tiempo total:</strong> t = √(2 ⋅ xₓ / a)</li>
-                </ul>
-            </section>
-
-            <!-- Datos del problema -->
-            <section class="datos">
-                <h2>Datos:</h2>
-                <ul>
-                    <li>Aceleración a: 8 cm/s² = 0.08 m/s²</li>
-                    <li>Tiempo t: 30 s</li>
-                    <li>Velocidad inicial v₀: 0 m/s</li>
-                    <li>Espacio total xₓ: 500 m</li>
-                </ul>
-            </section>
-
-            <!-- Botón de cálculo -->
-            <section class="calculos">
-                <h2>Solución</h2>
-                <button onclick="calcula();">Presiona para calcular</button>
-            </section>
+            <!-- Formulario para el cálculo -->
+            <form method="POST" action="index.php">
+                <section class="datos">
+                    <h2>Datos:</h2>
+                    <ul>
+                        <li>Aceleración a: <strong>8 cm/s² = 0.08 m/s²</strong></li>
+                        <li>Tiempo t: <strong>30 s</strong></li>
+                        <li>Velocidad inicial v₀: <strong>0 m/s</strong></li>
+                        <li>Espacio total xₓ: <strong>500 m</strong></li>
+                    </ul>
+                </section>
+                <section class="calculos">
+                    <h2>Solución</h2>
+                    <button type="submit">Calcular</button>
+                </section>
+            </form>
 
             <!-- Resultados -->
-            <section class="resultado">
-                <h2>Resultado:</h2>
-                <div id="resultadoA"></div>
-            </section>
+            <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
+                <section class="resultado">
+                    <h2>Resultado:</h2>
+                    <div id="resultadoA">
+                        <?php
+                            // Datos iniciales
+                            $aceleracion = 0.08; // Aceleración en m/s²
+                            $tiempo = 30;       // Tiempo en segundos
+                            $espacioTotal = 500; // Espacio total en metros
+
+                            // Cálculos
+                            $velocidadFinal = $aceleracion * $tiempo; // v = a * t
+                            $espacioRecorrido = 0.5 * $aceleracion * pow($tiempo, 2); // x = 0.5 * a * t²
+                            $tiempoTotal = sqrt((2 * $espacioTotal) / $aceleracion); // t = sqrt(2x / a)
+
+                            // Mostrar resultados
+                            echo "<p><strong>a)</strong> Velocidad después de 30 segundos: " . number_format($velocidadFinal, 2) . " m/s</p>";
+                            echo "<p><strong>b)</strong> Espacio recorrido en 30 segundos: " . number_format($espacioRecorrido, 2) . " m</p>";
+                            echo "<p><strong>c)</strong> Tiempo para recorrer 500 m: " . number_format($tiempoTotal, 2) . " s</p>";
+                        ?>
+                    </div>
+                </section>
+            <?php endif; ?>
         </section>
 
         <!-- Pie de página -->
