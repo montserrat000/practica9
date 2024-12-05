@@ -92,47 +92,38 @@
                 </center>
             </section>
 
-            <!-- Formulario para el cálculo -->
-            <form method="POST" action="index.php">
-                <section class="datos">
-                    <h2>Datos:</h2>
-                    <ul>
-                        <li>Aceleración a: <strong>8 cm/s² = 0.08 m/s²</strong></li>
-                        <li>Tiempo t: <strong>30 s</strong></li>
-                        <li>Velocidad inicial v₀: <strong>0 m/s</strong></li>
-                        <li>Espacio total xₓ: <strong>500 m</strong></li>
-                    </ul>
-                </section>
-                <section class="calculos">
-                    <h2>Solución</h2>
-                    <button type="submit">Calcular</button>
-                </section>
-            </form>
+            <!-- Fórmulas -->
+            <section class="formulas">
+                <h2>Fórmulas</h2>
+                <ul>
+                    <li><strong>Velocidad final:</strong> v = v₀ + a ⋅ t</li>
+                    <li><strong>Espacio recorrido:</strong> x = v₀ ⋅ t + ½ ⋅ a ⋅ t²</li>
+                    <li><strong>Tiempo total:</strong> t = √(2 ⋅ xₓ / a)</li>
+                </ul>
+            </section>
+
+            <!-- Datos del problema -->
+            <section class="datos">
+                <h2>Datos:</h2>
+                <ul>
+                    <li>Aceleración a: 8 cm/s² = 0.08 m/s²</li>
+                    <li>Tiempo t: 30 s</li>
+                    <li>Velocidad inicial v₀: 0 m/s</li>
+                    <li>Espacio total xₓ: 500 m</li>
+                </ul>
+            </section>
+
+            <!-- Botón de cálculo -->
+            <section class="calculos">
+                <h2>Solución</h2>
+                <button onclick="calcula();">Presiona para calcular</button>
+            </section>
 
             <!-- Resultados -->
-            <?php if ($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
-                <section class="resultado">
-                    <h2>Resultado:</h2>
-                    <div id="resultadoA">
-                        <?php
-                            // Datos iniciales
-                            $aceleracion = 0.08; // Aceleración en m/s²
-                            $tiempo = 30;       // Tiempo en segundos
-                            $espacioTotal = 500; // Espacio total en metros
-
-                            // Cálculos
-                            $velocidadFinal = $aceleracion * $tiempo; // v = a * t
-                            $espacioRecorrido = 0.5 * $aceleracion * pow($tiempo, 2); // x = 0.5 * a * t²
-                            $tiempoTotal = sqrt((2 * $espacioTotal) / $aceleracion); // t = sqrt(2x / a)
-
-                            // Mostrar resultados
-                            echo "<p><strong>a)</strong> Velocidad después de 30 segundos: " . number_format($velocidadFinal, 2) . " m/s</p>";
-                            echo "<p><strong>b)</strong> Espacio recorrido en 30 segundos: " . number_format($espacioRecorrido, 2) . " m</p>";
-                            echo "<p><strong>c)</strong> Tiempo para recorrer 500 m: " . number_format($tiempoTotal, 2) . " s</p>";
-                        ?>
-                    </div>
-                </section>
-            <?php endif; ?>
+            <section class="resultado">
+                <h2>Resultado:</h2>
+                <div id="resultadoA"></div>
+            </section>
         </section>
 
         <!-- Pie de página -->
@@ -140,5 +131,43 @@
             Creative Commons versión 3.0 SciSoft 2024
         </footer>
     </section>
+
+    <script>
+        // Datos iniciales
+        const aceleracion = 0.08; // Aceleración en m/s²
+        const tiempo = 30;        // Tiempo en segundos
+        const espacioTotal = 500; // Espacio total en metros
+
+        // Función para calcular velocidad final
+        function calcularVelocidadFinal(a, t) {
+            return a * t; // Fórmula: v = v0 + at (v0 = 0)
+        }
+
+        // Función para calcular espacio recorrido
+        function calcularEspacio(a, t) {
+            return 0.5 * a * t ** 2; // Fórmula: x = 0.5 * a * t^2
+        }
+
+        // Función para calcular el tiempo para recorrer una distancia
+        function calcularTiempo(x, a) {
+            return Math.sqrt((2 * x) / a); // Fórmula: t = sqrt(2x / a)
+        }
+
+        // Función principal que muestra los resultados en el HTML
+        function calcula() {
+            // Cálculo de los resultados
+            const velocidadFinal = calcularVelocidadFinal(aceleracion, tiempo);
+            const espacioRecorrido = calcularEspacio(aceleracion, tiempo);
+            const tiempoTotal = calcularTiempo(espacioTotal, aceleracion);
+
+            // Actualización de los resultados en el HTML
+            const resultadoDiv = document.getElementById("resultadoA");
+            resultadoDiv.innerHTML = `
+                <p><strong>a)</strong> Velocidad después de 30 segundos: ${velocidadFinal.toFixed(2)} m/s</p>
+                <p><strong>b)</strong> Espacio recorrido en 30 segundos: ${espacioRecorrido.toFixed(2)} m</p>
+                <p><strong>c)</strong> Tiempo para recorrer 500 m: ${tiempoTotal.toFixed(2)} s</p>
+            `;
+        }
+    </script>
 </body>
 </html>
